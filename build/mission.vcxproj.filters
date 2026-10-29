@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Peter\Školský projekt\ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til\src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Peter\Školský projekt\ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4D43BB65-41EE-34AD-8C3D-4F72282240E4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
