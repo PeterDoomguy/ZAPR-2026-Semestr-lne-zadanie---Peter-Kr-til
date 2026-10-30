@@ -3,4 +3,5 @@ project(mission C)
 
 set(CMAKE_C_STANDARD 17)
 
-add_executable(mission src/main.c)
+add_executable(mission src/main.c
+        src/main.c)

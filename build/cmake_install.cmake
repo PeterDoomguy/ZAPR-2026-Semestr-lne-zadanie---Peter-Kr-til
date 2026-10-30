@@ -1,4 +1,4 @@
-# Install script for directory: D:/Peter/Školský projekt/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til
+# Install script for directory: D:/Peter/Skolska praca/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,7 +35,7 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "D:/Peter/Školský projekt/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til/build/install_local_manifest.txt"
+  file(WRITE "D:/Peter/Skolska praca/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til/build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -51,6 +51,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "D:/Peter/Školský projekt/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "D:/Peter/Skolska praca/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
