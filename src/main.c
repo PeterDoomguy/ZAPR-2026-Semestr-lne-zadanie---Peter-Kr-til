@@ -21,7 +21,7 @@ enum command {
     CMD_NON_INTERACTIVE,
     CND_START
 };
-void SimulationStarted(int c, int d, int f, int o);
+void SimulationStarted(int c, int d, int f, int o, int slrstrm, int nonint);
 void SpracovanieProgramu(enum command cmd,int hodnota);
 int main(int argc, char *argv[]) {
     // spracovanie argumentov podľa návodu https://zapr.interes.group/guides/program_arguments/
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
             SpracovanieProgramu(CMD_SOLAR_STORM,0);
 
         } else if (strcmp(argv[i], "--non-interactive") == 0) {
-            SpracovanieProgramu(CMD_NON_INTERACTIVE,0);
+            SpracovanieProgramu(CMD_NON_INTERACTIVE,1);
         } else {
             printf("Unknown option: %s\n", argv[i]);
         }
@@ -101,7 +101,12 @@ int main(int argc, char *argv[]) {
 }
 
 void SpracovanieProgramu(enum command cmd,int hodnota) {
-    int crew, days, food, oxygen;
+    static int crew = 0;
+    static int days = 0;
+    static int food = 0;
+    static int oxygen = 0;
+    static int slrstrm = 0;
+    static int nonint = 0;
     switch (cmd) {
     case CMD_CREW:
         printf("Pocet posadky: %d\n", hodnota);
@@ -124,13 +129,22 @@ void SpracovanieProgramu(enum command cmd,int hodnota) {
         break;
 
     case CMD_SOLAR_STORM:
-        printf("Solarna burka!\n");
+            if (days <= 0) {
+                printf("Niesu zadane dni.\n");
+                break;
+            }
+            slrstrm = rand() % (days - 1 + 1)
+                    + 1;
+            printf("Solarna burka: %d \n",slrstrm);
         break;
     case CND_START:
         printf("====== RIADIACE STREDISKO ======\n");
-        SimulationStarted(crew,days,food,oxygen);
-        printf("--------------------------------");
-
+        SimulationStarted(crew,days,food,oxygen, slrstrm, nonint);
+        printf("--------------------------------\n");
+        break;
+    case CMD_NON_INTERACTIVE:
+            nonint = hodnota;
+        break;
     default:
         printf("Neznamy prikaz\n");
         break;
@@ -138,28 +152,77 @@ void SpracovanieProgramu(enum command cmd,int hodnota) {
 }
 // Spotrebovane jedlo pre jednotlivca je len jedno.
 // Spotrebovaný kyslík sú 2.
-void SimulationStarted(int c, int d, int f, int o){
+void SimulationStarted(int c, int d, int f, int o, int slrstrm, int nonint){
+    int food = f;
+    int oxygen = o;
     int countDay = 0;
     int zostavajuceJedlo = 0;
     int zostavajuciKyslík = 0;
-    while (countDay >= d){
-        printf("%d/%d", countDay, d);
-        f = f - c;
-        o = o - (c * 2);
+    int percentnaUspesnost = 0;
+    int uspechBool = 1;
+
+    while (countDay < d) {
+        int denneJedlo = c;
+        int dennyKyslik = c * 2;
+
+        if (slrstrm == countDay + 1) {
+            denneJedlo = c * 2;
+        }
+
+        if (f < denneJedlo) {
+            printf("Misia neuspesna -> doslo jedlo.\n");
+            uspechBool = 0;
+            break;
+        }
+
+        if (o < dennyKyslik) {
+            printf("Misia neuspesna -> dosiel kyslik.\n");
+            uspechBool = 0;
+            break;
+        }
+
+        f -= denneJedlo;
+        o -= dennyKyslik;
+
         zostavajuceJedlo = f;
         zostavajuciKyslík = o;
 
-        printf("Spotrebované jedlo: %d", f);
-        printf("Spotrebovaný kyslík: %d", o);
-        printf("Zostávajúce jedlo: %d", zostavajuceJedlo);
-        printf("Zostávajúci kyslík: %d", zostavajuciKyslík);
-
         countDay++;
 
-        char c;
-        putchar(c);
+        printf("DEN %d/%d\n", countDay, d);
+        printf("Spotrebovane jedlo: %d\n", denneJedlo);
+        printf("Spotrebovany kyslik: %d\n", dennyKyslik);
+        printf("Zostavajuce jedlo: %d\n", zostavajuceJedlo);
+        printf("Zostavajuci kyslik: %d\n", zostavajuciKyslík);
 
-        printf("--------------------------------");
+        if (nonint != 1) {
+            char c;
+            printf("Pokracovat na dalsi den? [y/n]: ");
+            scanf(" %c", &c);
+            if (c == 'y' || c == 'Y') {
+                printf("\n--------------------------------\n");
+            } else if (c == 'n' || c == 'N') {
+                printf("Koniec simulacie.\n");
+                break;
+            } else {
+                printf("Zle zadani prikaz.\n");
+            }
+        } else {
+            printf("\n--------------------------------\n");
+        }
     }
-}
+    percentnaUspesnost = (countDay * 100) / d;
 
+    printf("\n================================\n");
+    printf("SUHRN MISIE\n");
+    if (uspechBool) {
+        printf("Stav: USPESNE DOKONCENA\n");
+    } else {
+        printf("Stav: NEUSPESNE DOKONCENA\n");
+    }
+    printf("Dokoncene dni: %d/%d \n", countDay, d);
+    printf("Uspesnost misie je: %d \n", percentnaUspesnost);
+    printf("Jedlo: %d na zaciatku, %d spotrebovane, %d zostavajuce \n", food, food - zostavajuceJedlo, zostavajuceJedlo);
+    printf("Kyslik: %d na zaciatku, %d spotrebovane, %d zostavajuce \n", oxygen, oxygen - zostavajuciKyslík, zostavajuciKyslík);
+    printf("================================\n");
+}

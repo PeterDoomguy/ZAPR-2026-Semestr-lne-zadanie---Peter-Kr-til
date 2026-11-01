@@ -1,0 +1,10 @@
+^D:\PETER\ŠKOLSKÝ PROJEKT\ZAPR-2026-SEMESTR-LNE-ZADANIE---PETER-KR-TIL\BIN\CMAKEFILES\59F3093F2D7B3A974F54D711CEB8F812\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Peter/Školský projekt/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til" "-BD:/Peter/Školský projekt/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til/bin" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Peter/Školský projekt/ZAPR-2026-Semestr-lne-zadanie---Peter-Kr-til/bin/mission.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
